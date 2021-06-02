@@ -1,11 +1,22 @@
-FROM openjdk:8u131-jdk-alpine
+FROM nginx:1.14.0-alpine
 
-MAINTAINER Richard Chesterwood "contact@virtualpairprogrammers.com"
+MAINTAINER Richard Chesterwood "richard@inceptiontraining.co.uk"
 
-EXPOSE 8080
+RUN apk --no-cache add \
+      python2 \
+      py2-pip && \
+    pip2 install j2cli[yaml]
 
-WORKDIR /usr/local/bin/
+RUN apk add --update bash && rm -rf /var/cache/apk/*
 
-COPY maven/fleetman-0.0.1-SNAPSHOT.jar webapp.jar
+RUN rm -rf /usr/share/nginx/html/*
 
-CMD ["java","-Dspring.profiles.active=docker", "-jar","webapp.jar"]
+COPY /dist /usr/share/nginx/html
+
+COPY nginx.conf.j2 /templates/
+
+COPY docker-entrypoint.sh /
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["nginx", "-g", "daemon off;"]

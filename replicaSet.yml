@@ -10,11 +10,10 @@ spec:
   replicas: 1
   template: #template fot the pods
     metadata: 
-     
       labels:
         app: webapp
    
-  spec:
-    containers:
-    - name: webapp
-      image: richardchesterwood/k8s-fleetman-webapp-angular:release0-5
+    spec:
+      containers:
+      - name: webapp
+        image: richardchesterwood/k8s-fleetman-webapp-angular:release0-5

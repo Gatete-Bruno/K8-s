@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: mongodb
   replicas: 1
-  template:
+  template: # template for the pods
     metadata:
       labels:
         app: mongodb
@@ -23,16 +23,15 @@ spec:
           # pointer to the configuration of HOW we want the mount to be implemented
           persistentVolumeClaim:
             claimName: mongo-pvc
-
---- 
+---
 kind: Service
 apiVersion: v1
-metadata: 
-  name: fleetman-mongo
+metadata:
+  name: fleetman-mongodb
 spec:
   selector:
     app: mongodb
-  ports: 
+  ports:
     - name: mongoport
       port: 27017
   type: ClusterIP
